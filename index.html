@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>ModelFigure Shop — Project Document</title>
+    <style>
+        :root {
+            --paper: #fdfaf4;
+            --ink: #2b2620;
+            --muted: #5c5548;
+            --line: #d8cfba;
+            --accent: #b5452b;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Noto Sans Thai", sans-serif;
+            color: var(--ink);
+            background: var(--paper);
+        }
+
+        .display-font {
+            font-family: "Chakra Petch", sans-serif;
+        }
+
+        .doc-tag {
+            font-family: "Chakra Petch", sans-serif;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            color: var(--accent);
+        }
+
+        .markdown-content h1,
+        .markdown-content h2,
+        .markdown-content h3,
+        .markdown-content h4 {
+            margin-top: 1.2rem;
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+            color: var(--ink);
+            font-family: "Chakra Petch", sans-serif;
+        }
+
+        .markdown-content h1 {
+            margin-top: 0;
+            font-size: 1.7rem;
+            font-weight: 700;
+            padding-bottom: 0.6rem;
+            border-bottom: 3px solid var(--ink);
+        }
+
+        .markdown-content h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-top: 2rem;
+            padding-bottom: 0.35rem;
+            border-bottom: 1px dashed var(--line);
+        }
+
+        .markdown-content h2::before {
+            content: "§ ";
+            color: var(--accent);
+        }
+
+        .markdown-content h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .markdown-content p {
+            margin: 0.65rem 0;
+            color: var(--muted);
+            line-height: 1.85;
+        }
+
+        .markdown-content ul,
+        .markdown-content ol {
+            margin: 0.5rem 0 1rem 1.35rem;
+            color: var(--muted);
+        }
+
+        .markdown-content li {
+            margin: 0.4rem 0;
+            line-height: 1.75;
+            padding-left: 0.2rem;
+        }
+
+        .markdown-content li::marker {
+            color: var(--accent);
+        }
+
+        .markdown-content strong {
+            color: var(--ink);
+            font-weight: 700;
+        }
+
+        .markdown-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            border: 1px solid var(--line);
+            background: #fffdf8;
+        }
+
+        .markdown-content th,
+        .markdown-content td {
+            border: 1px solid var(--line);
+            padding: 0.65rem 0.75rem;
+            text-align: left;
+            vertical-align: top;
+            color: var(--muted);
+        }
+
+        .markdown-content th {
+            color: var(--ink);
+            background: #f1e9d6;
+            font-weight: 700;
+            font-family: "Chakra Petch", sans-serif;
+            letter-spacing: 0.02em;
+        }
+
+        .diagram-shell {
+            margin-top: 2rem;
+            padding: 1.15rem;
+            border: 1px solid var(--line);
+            background: #fffdf8;
+            overflow-x: auto;
+        }
+
+        .diagram-shell h2 {
+            margin: 0 0 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+            font-family: "Chakra Petch", sans-serif;
+            color: var(--ink);
+            padding-bottom: 0.35rem;
+            border-bottom: 1px dashed var(--line);
+        }
+
+        .diagram-shell h2::before {
+            content: "§ ";
+            color: var(--accent);
+        }
+
+        .mermaid {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen">
+    <main class="mx-auto w-full max-w-4xl px-4 py-10 sm:px-6 lg:py-14">
+        <div class="mb-3 flex items-center gap-2">
+            <span class="doc-tag">Project Document</span>
+            <span class="h-px flex-1" style="background: var(--line);"></span>
+        </div>
+        <section class="border p-6 sm:p-8 lg:p-10" style="border-color: var(--line); background: var(--paper);">
+            <article id="markdown-output" class="markdown-content"></article>
+            <section class="diagram-shell">
+                <h2>System Architecture Diagram</h2>
+                <div id="diagram-output" class="mermaid"></div>
+            </section>
+        </section>
+        <div class="mt-4 text-right">
+            <span class="doc-tag">ModelFigure Shop</span>
+        </div>
+    </main>
+
+    <script>
+        mermaid.initialize({ startOnLoad: false });
+
+        const markdownData = `# ModelFigure Shop: ร้านค้าออนไลน์สำหรับจัดจำหน่ายโมเดลและฟิกเกอร์
+
+
+## 1) ข้อมูลกลุ่ม (Group information)
+- **ชื่อกลุ่ม:** Model-Figure
+- **จำนวนสมาชิก:** 5/5
+- **1.67096842 กชกร ฉวีกุลมหันต์** — Project Manager
+- **2.67095943 ภาณุวิชญ์ ปิ่นทอง** — Frontend
+- **3.67109344 อิฐศิวะ ต่อเหล่าทรัพย์** — Frontend & Backend
+- **4.67109337 อนุวัฒน์ สีสันติ** — Frontend & Backend
+- **5.67109320 ธีรเดช ม้าจีน** —   Backend API
+
+
+
+## 2) ชื่อโครงงาน (Project Title)
+- **ชื่อโครงงาน (ภาษาไทย):** ร้านขายโมเดลและฟิกเกอร์ออนไลน์ (ModelFigure Shop)
+- **ชื่อโครงงาน (ภาษาอังกฤษ):** ModelFigure Shop
+
+## 3) หลักการและเหตุผล (Rationale)
+ตลาดโมเดลและฟิกเกอร์ในปัจจุบันมีการเติบโตอย่างต่อเนื่อง โดยเฉพาะในกลุ่มแฟนอนิเมะ มังงะ และผู้ที่ชื่นชอบการสะสมของสะสม อย่างไรก็ตาม ผู้ซื้อยังประสบปัญหาในการค้นหาสินค้าที่ต้องการ เนื่องจากร้านค้าออนไลน์ที่มีอยู่ขาดการจัดหมวดหมู่สินค้าที่ชัดเจนและระบบค้นหาที่มีประสิทธิภาพ ทางคณะผู้จัดทำจึงได้พัฒนาแพลตฟอร์ม **"ModelFigure Shop"** ขึ้นมา เพื่อเป็นร้านค้าออนไลน์ที่รวบรวมโมเดลและฟิกเกอร์หลากหลายประเภท ช่วยให้ผู้ซื้อสามารถค้นหา เปรียบเทียบ และสั่งซื้อสินค้าได้อย่างสะดวกรวดเร็ว
+
+## 4) วัตถุประสงค์ของโครงงาน
+1. พัฒนาแพลตฟอร์ม e-Commerce สำหรับซื้อขายโมเดลและฟิกเกอร์ที่มีประสิทธิภาพและใช้งานง่าย
+2. เพื่ออำนวยความสะดวกให้ผู้ใช้งานสามารถค้นหา เลือกดูข้อมูลสินค้า และสั่งซื้อได้ครบจบในที่เดียว
+3. เพื่อประยุกต์ใช้ความรู้ด้านดิจิทัลแพลตฟอร์มและการพัฒนาซอฟต์แวร์ตามกระบวนการ SDLC
+
+## 5) ขอบเขตของระบบ (System Scope)
+### ผู้เยี่ยมชม (Guest)
+
+- เรียกดูสินค้าและค้นหาตามหมวดหมู่ (กันดั้ม, ฟิกเกอร์อนิเมะ, สเกลโมเดล, อุปกรณ์เสริม) โดยไม่ต้องสมัครสมาชิก
+
+- กรองสินค้าตามแบรนด์ (Bandai, Good Smile Company, Kotobukiya), ช่วงราคา, เกรด (HG / MG / PG) และสเกล (1/144, 1/100, 1/60)
+
+- ดูรายละเอียดสินค้า รูปภาพ สเปค และวันวางจำหน่าย
+
+
+### สมาชิก (Member)
+
+- สมัครสมาชิกและเข้าสู่ระบบ (Register / Login)
+
+- เพิ่มสินค้าลง Wishlist เพื่อติดตามสินค้าที่สนใจและรับแจ้งเตือนเมื่อสินค้าพร้อมจำหน่าย
+
+- จอง Pre-order สินค้าที่ยังไม่วางจำหน่าย พร้อมยืนยันจำนวนและชำระมัดจำ
+
+- จัดการตะกร้าสินค้าและสั่งซื้อพร้อมอัปโหลดสลิปการชำระเงิน
+
+- ติดตามสถานะคำสั่งซื้อ (รอยืนยัน → ชำระเงินแล้ว → กำลังจัดส่ง → ได้รับสินค้า) และดูประวัติการสั่งซื้อ
+
+- จัดการข้อมูลส่วนตัวและที่อยู่จัดส่งหลายที่อยู่
+
+
+### ผู้ดูแลร้าน (Shop Admin)
+
+- จัดการข้อมูลสินค้าพร้อม attribute เฉพาะฟิกเกอร์ (แฟรนไชส์, แบรนด์, สเกล, เกรด, วันวางจำหน่าย, ราคา, จำนวนสต็อก)
+
+- จัดการระบบ Pre-order: กำหนดช่วงเวลาจอง, โควตา, ราคามัดจำ และวันปิดรับจอง
+
+- ตรวจสอบสลิปการชำระเงินและอัปเดตสถานะคำสั่งซื้อ
+
+- ดูรายงานยอดขายจำแนกตามหมวดหมู่สินค้า แฟรนไชส์ และช่วงเวลา
+
+- จัดการบัญชีสมาชิก (ดู / ระงับ / ลบ)
+
+
+## 6) แนวทางการพัฒนาตาม SDLC (Brief Description)
+| ขั้นตอน (Phase) | รายละเอียดโดยย่อ (Brief Description) |
+|---|---|
+| 1. Planning | ประชุมวางแผน กำหนดหัวข้อโครงงาน "ModelFigure Shop" และจัดทำเอกสารขออนุมัติ |
+| 2. Analysis | รวบรวม Requirements กำหนดขอบเขตการทำงานของ User แต่ละกลุ่ม |
+| 3. Design | ออกแบบ ER-Diagram, System Architecture Diagram และ UI Wireframe บน Figma |
+| 4. Development | พัฒนา Frontend (React) และ Backend (Node.js) พร้อมเชื่อมต่อ LocalStorage |
+| 5. Testing | ทดสอบระบบแบบ Manual Testing ตาม Test Cases เพื่อค้นหาและแก้ไข Bug |
+| 6. Deployment | นำระบบขึ้น GitHub Pages เพื่อให้ผู้สอนและผู้เกี่ยวข้องเข้าใช้งานได้ |
+| 7. Maintenance | ตรวจทานระบบหลังติดตั้ง รับ Feedback และสรุปผลโครงงาน |
+
+## 7) เครื่องมือและเทคโนโลยีที่ใช้
+- **Frontend:** React
+- **Backend:** Node.js
+- **Database:** LocalStorage
+
+## 8) ประเภทการทดสอบ (Test Types)
+- User Acceptance Testing (UAT)
+
+- **เครื่องมือที่ใช้ (Tools)**
+
+- Manual Testing
+
+
+
+## 9) ผลลัพธ์ที่คาดว่าจะได้รับ
+1. ได้แพลตฟอร์มร้านค้าออนไลน์ ModelFigure Shop ที่สามารถซื้อขายโมเดลและฟิกเกอร์ได้จริงตามขอบเขตที่กำหนด
+2. ผู้ใช้งานได้รับความสะดวกในการค้นหาและเลือกซื้อโมเดลและฟิกเกอร์ที่ต้องการ
+3. ผู้จัดทำเข้าใจกระบวนการพัฒนาซอฟต์แวร์ตามหลัก SDLC และสามารถทำงานร่วมกันเป็นทีมอย่างมีประสิทธิภาพ
+
+## 10) แผนการดำเนินงาน 4 สัปดาห์ (Work Plan)
+| สัปดาห์ | รายละเอียดโดยย่อ |
+|---|---|
+| สัปดาห์ที่ 1 (วิเคราะห์และออกแบบระบบ) | ประชุมเก็บความต้องการ ออกแบบ Use Case, Database และสร้าง UI Prototype บน Figma |
+| สัปดาห์ที่ 2 (พัฒนา Frontend) | พัฒนาหน้าจอ Interface ทั้งหมด (หน้าแรก, หน้ารายละเอียดสินค้า, ตะกร้าสินค้า, หน้า Admin) |
+| สัปดาห์ที่ 3 (พัฒนา Backend และฐานข้อมูล) | พัฒนาระบบ API, ระบบ Login, จัดการสินค้าและคำสั่งซื้อ เชื่อมต่อ Frontend กับ Backend |
+| สัปดาห์ที่ 4 (ทดสอบและนำเสนอ) | ทดสอบระบบแบบ Manual แก้ไขจุดบกพร่อง และนำเสนอผลงาน |`;
+
+        const diagramData = `graph TD
+
+    subgraph "ผู้ใช้งาน (Actors)"
+        G["ผู้เยี่ยมชม (Guest)"]
+        M["สมาชิก (Member)"]
+        SA["ผู้ดูแลร้าน (Shop Admin)"]
+    end
+
+    subgraph "React Frontend"
+        ShopUI["หน้าร้านค้า (Shop UI)"]
+        AdminUI["แดชบอร์ดผู้ดูแล (Admin UI)"]
+    end
+
+    subgraph "Node.js Backend"
+        API["REST API"]
+
+        subgraph "Business Services"
+            Auth["Auth Service"]
+            Catalog["Product Catalog Service\n(Brand / Franchise / Scale / Grade)"]
+            Preorder["Pre-order Service"]
+            Wishlist["Wishlist Service"]
+            Cart["Cart & Checkout Service"]
+            Payment["Payment Verification"]
+            Order["Order Management"]
+            Report["Sales Report"]
+        end
+    end
+
+    subgraph "Data Layer"
+        DB[("LocalStorage")]
+    end
+
+    G --> ShopUI
+    M --> ShopUI
+    SA --> AdminUI
+
+    ShopUI --> API
+    AdminUI --> API
+
+    API --> Auth
+    API --> Catalog
+    API --> Preorder
+    API --> Wishlist
+    API --> Cart
+    API --> Payment
+    API --> Order
+    API --> Report
+
+    Auth --> DB
+    Catalog --> DB
+    Preorder --> DB
+    Wishlist --> DB
+    Cart --> DB
+    Payment --> DB
+    Order --> DB
+    Report --> DB`;
+
+        document.getElementById("markdown-output").innerHTML = marked.parse(markdownData);
+        document.getElementById("diagram-output").textContent = diagramData;
+        mermaid.run({ nodes: [document.getElementById("diagram-output")] });
+    </script>
+</body>
+
+</html>
